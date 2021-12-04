@@ -14,7 +14,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let numbers: Vec<i32> = lines
         .first()
         .unwrap()
-        .split(",")
+        .split(',')
         .filter_map(|v| v.parse::<i32>().ok())
         .collect();
     let boards: Vec<Vec<i32>> = lines
@@ -48,9 +48,9 @@ fn part_one(numbers: &[i32], boards: &[Vec<i32>]) -> i32 {
 
 fn validate_board(numbers: &HashSet<i32>, board: &[i32]) -> Option<i32> {
     let mut board = board.to_vec();
-    for i in 0..board.len() {
-        if numbers.contains(&board[i]) {
-            board[i] = -1;
+    for item in &mut board {
+        if numbers.contains(item) {
+            *item = -1;
         }
     }
     for y in 0..5 {
