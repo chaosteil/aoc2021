@@ -43,12 +43,8 @@ fn part_two(input: &[i32]) -> u64 {
         buckets[*f as usize] += 1;
     }
     for _ in 0..256 {
-        let spawn = buckets[0];
-        for i in 1..=8 {
-            buckets[i - 1] = buckets[i]
-        }
-        buckets[6] += spawn;
-        buckets[8] = spawn;
+        buckets.rotate_left(1);
+        buckets[6] += buckets[8];
     }
     buckets.iter().sum()
 }
