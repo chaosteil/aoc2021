@@ -47,19 +47,19 @@ fn find_path(input: &HashMap<String, Vec<String>>, prev: &[String], twice: bool)
     if *prev.last().unwrap() == "end" {
         return 1;
     }
-    let next = &input[&prev.last().unwrap().to_string()];
+    let next = &input[prev.last().unwrap()];
     next.iter()
         .filter(|x| {
             if *x == "start" {
                 false
-            } else if twice && x.to_ascii_lowercase() == **x {
+            } else if twice && x.chars().all(|c| c.is_lowercase()) {
                 !prev.contains(x)
             } else {
                 true
             }
         })
         .map(|x| {
-            let twice = twice || (x.to_ascii_lowercase() == *x && prev.contains(x));
+            let twice = twice || (x.chars().all(|c| c.is_lowercase()) && prev.contains(x));
             let mut prev = prev.to_vec();
             prev.push(x.clone());
             find_path(input, &prev, twice)
