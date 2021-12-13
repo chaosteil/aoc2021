@@ -10,8 +10,8 @@ fn main() -> Result<(), Box<dyn Error>> {
         .lines()
         .filter_map(Result::ok)
         .collect();
-    println!("{}", part_one(&lines));
-    println!("{}", part_two(&lines));
+    println!("{:?}", part_one(&lines));
+    println!("{:?}", part_two(&lines));
     Ok(())
 }
 
