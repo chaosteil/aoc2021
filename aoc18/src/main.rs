@@ -18,15 +18,7 @@ impl Element {
         }
     }
     fn reduce(mut self) -> Self {
-        loop {
-            if self.try_explode(0).0 {
-                continue;
-            }
-            if self.try_split() {
-                continue;
-            }
-            break;
-        }
+        while self.try_explode(0).0 || self.try_split() {}
         self
     }
 
@@ -81,10 +73,9 @@ impl Element {
         match self {
             Element::Number(n) => {
                 if *n >= 10 {
-                    let n = *n as f32;
                     *self = Element::Pair(Box::new((
-                        Element::Number((n / 2.0).floor() as u32),
-                        Element::Number((n / 2.0).ceil() as u32),
+                        Element::Number(*n / 2),
+                        Element::Number(*n / 2 + *n % 2),
                     )));
                     true
                 } else {
