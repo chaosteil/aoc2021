@@ -41,14 +41,9 @@ fn main() -> Result<(), Box<dyn Error>> {
 }
 
 fn part_one(algorithm: &[i8], image: &Image) -> usize {
-    let infinity = match algorithm[0] {
-        0 => |_| 0,
-        1 => |i: i8| i % 2,
-        _ => unreachable!(),
-    };
     let mut image = image.clone();
     for i in 0..2 {
-        image = enhance(infinity(i), algorithm, &image);
+        image = enhance(infinity(algorithm, i), algorithm, &image);
     }
     image.iter().filter(|(_, v)| **v == 1).count()
 }
@@ -87,7 +82,15 @@ fn output_pixel(i: i8, algorithm: &[i8], image: &Image, pixel: (isize, isize)) -
 fn part_two(algorithm: &[i8], image: &Image) -> usize {
     let mut image = image.clone();
     for i in 0..50 {
-        image = enhance(i % 2, algorithm, &image);
+        image = enhance(infinity(algorithm, i), algorithm, &image);
     }
     image.iter().filter(|(_, v)| **v == 1).count()
+}
+
+fn infinity(algorithm: &[i8], i: i8) -> i8 {
+    match algorithm[0] {
+        0 => 0,
+        1 => i % 2,
+        _ => unreachable!(),
+    }
 }
